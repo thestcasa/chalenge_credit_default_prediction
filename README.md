@@ -29,5 +29,5 @@ python main.py
 ```
 
 Expected output:
-- `submission.csv` at the project root contains the selected public 0.721 run.
+- `submission.csv` at the project root contains the selected public 0.721 run, 1st place in the course leaderboard
 
