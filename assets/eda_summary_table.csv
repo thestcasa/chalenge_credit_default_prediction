@@ -1,0 +1,9 @@
+Metric,Value
+Development shape,"24,000 rows, 25 cols."
+Evaluation shape,"6,000 rows, 24 cols."
+Default distribution,"5,309 / 24,000, 22.1%"
+Duplicate rows / duplicate IDs,0 / 0
+Development/evaluation ID overlap,0
+Missing values in expected columns,0
+Lowest vs. highest LIMIT_BAL bin default rate,32.2% vs. 12.7%
+"Recent delay default rate, delayed vs. not delayed",50.4% vs. 13.7%

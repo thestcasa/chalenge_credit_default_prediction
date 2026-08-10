@@ -1,0 +1,216 @@
+random_state: 123
+paths:
+  development: data/dev.csv
+  evaluation: data/eval.csv
+  sample_submission: data/submission.csv
+  submission_output: submission.csv
+  model_output:
+  leaderboard_output:
+  best_params_output:
+  metrics_output:
+columns:
+  target: default.payment.next.month
+  id_candidates:
+  - ID
+  - Id
+  - id
+  categorical:
+  - SEX
+  - EDUCATION
+  - MARRIAGE
+  - PAY_0
+  - PAY_2
+  - PAY_3
+  - PAY_4
+  - PAY_5
+  - PAY_6
+  pay_status:
+  - PAY_0
+  - PAY_2
+  - PAY_3
+  - PAY_4
+  - PAY_5
+  - PAY_6
+  bill_amount:
+  - BILL_AMT1
+  - BILL_AMT2
+  - BILL_AMT3
+  - BILL_AMT4
+  - BILL_AMT5
+  - BILL_AMT6
+  payment_amount:
+  - PAY_AMT1
+  - PAY_AMT2
+  - PAY_AMT3
+  - PAY_AMT4
+  - PAY_AMT5
+  - PAY_AMT6
+  numeric_base:
+  - LIMIT_BAL
+  - AGE
+validation:
+  holdout_size: 0.2
+  cv_folds: 5
+  scoring: roc_auc
+  stratify: true
+feature_engineering:
+  enabled: true
+  epsilon: 1.0e-09
+  feature_flags:
+    max_delay: true
+    mean_delay: true
+    min_delay: true
+    std_delay: true
+    max_positive_delay: true
+    mean_positive_delay: true
+    sum_positive_delay: true
+    num_delayed_months: true
+    num_duly_months: true
+    recent_delay: true
+    recent_positive_delay: true
+    has_recent_delay: true
+    delay_trend: true
+    positive_delay_trend: true
+    has_any_delay: true
+    mean_bill: true
+    max_bill: true
+    min_bill: true
+    std_bill: false
+    total_bill: true
+    num_zero_bills: true
+    num_negative_bills: false
+    has_negative_bill: false
+    bill_trend: true
+    recent_bill_to_limit: true
+    mean_bill_to_limit: true
+    max_bill_to_limit: true
+    mean_payment: true
+    max_payment: true
+    min_payment: true
+    std_payment: false
+    total_payment: true
+    num_zero_payments: true
+    has_zero_payment: true
+    payment_trend: true
+    recent_payment_to_limit: true
+    mean_payment_to_limit: true
+    total_payment_to_total_bill: true
+    mean_payment_to_mean_bill: true
+    recent_payment_to_recent_bill: true
+    payment_coverage_1: true
+    payment_coverage_2: true
+    payment_coverage_3: true
+    payment_coverage_4: true
+    payment_coverage_5: true
+    payment_coverage_6: true
+    payment_to_previous_bill_1: false
+    payment_to_previous_bill_2: false
+    payment_to_previous_bill_3: false
+    payment_to_previous_bill_4: false
+    payment_to_previous_bill_5: false
+    mean_payment_to_previous_bill: false
+    min_payment_to_previous_bill: false
+    max_payment_to_previous_bill: false
+    num_low_previous_bill_coverage: false
+    has_low_previous_bill_coverage: false
+    num_delay_ge_2: false
+    num_delay_ge_3: false
+    has_severe_delay: false
+    recent_delay_ge_2: false
+    last3_num_delay_ge_2: false
+    last3_max_delay: false
+    zero_payment_positive_bill_1: false
+    zero_payment_positive_bill_2: false
+    zero_payment_positive_bill_3: false
+    zero_payment_positive_bill_4: false
+    zero_payment_positive_bill_5: false
+    zero_payment_positive_bill_6: false
+    num_zero_payment_positive_bill: false
+    has_zero_payment_positive_bill: false
+    recent_delay_x_recent_bill_to_limit: false
+    num_delayed_months_x_mean_bill_to_limit: false
+    has_recent_delay_x_recent_payment_to_recent_bill: false
+preprocessing:
+  one_hot_encode_categorical: true
+  native_catboost_categorical: false
+  handle_unknown_categories: ignore
+  scale_numeric_for_linear_models: true
+  normalize_unknown_categorical_codes: true
+  education_unknown_to: 4
+  marriage_unknown_to: 3
+  clip_engineered_ratios: true
+  ratio_lower_clip: -1.0
+  ratio_upper_clip: 20.0
+models:
+  dummy: false
+  logistic_regression: false
+  random_forest: false
+  extra_trees: false
+  hist_gradient_boosting: false
+  gradient_boosting: false
+  xgboost: false
+  lightgbm: false
+  catboost: true
+hyperparameter_tuning:
+  enabled: true
+  method: randomized_search
+  n_iter: 50
+  n_jobs: 2
+  verbose: 1
+  refit: true
+threshold_tuning:
+  enabled: true
+  min_threshold: 0.29
+  max_threshold: 0.34
+  num_thresholds: 101
+model_selection:
+  primary_metric: holdout_macro_f1_tuned_threshold
+param_grids:
+  catboost:
+    classifier__iterations:
+    - 700
+    - 900
+    - 1100
+    - 1300
+    classifier__learning_rate:
+    - 0.02
+    - 0.025
+    - 0.03
+    classifier__depth:
+    - 5
+    - 6
+    classifier__l2_leaf_reg:
+    - 10
+    - 15
+    - 20
+    - 25
+    classifier__auto_class_weights:
+    - null
+oof_ensemble:
+  enabled: true
+  n_splits: 5
+  shuffle: true
+  average_method: mean
+  tune_threshold_on_oof: false
+  fixed_threshold: 0.328
+  auto_blend_weights: false
+  save_oof_predictions: false
+  save_eval_probabilities: false
+  output_submission: submission.csv
+  oof_predictions_output:
+  eval_probabilities_output:
+  threshold_search_output:
+  metrics_output:
+  variants:
+    catboost_d_seed_123:
+      model_type: catboost
+      weight: 1.0
+      params:
+        classifier__iterations: 1100
+        classifier__learning_rate: 0.02
+        classifier__depth: 6
+        classifier__l2_leaf_reg: 25
+        classifier__auto_class_weights: null
+        classifier__thread_count: 2
+  blend_weights: null
+  blend_weight_search_output:
